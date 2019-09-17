@@ -16,6 +16,7 @@ from __future__ import print_function
 print("Create your character!")
 name = raw_input("What is your character called? ")
 age = raw_input("How old is your character? ")
+ageNextYear=int(age) + 1
 strengths = raw_input("What are your character's strengths? ")
 weaknesses = raw_input("What are your character's weaknesses?" )
 
@@ -23,8 +24,7 @@ print("Your character's name is ", name)
 print("Your character's age is ", age)
 print("Strengths: ", strengths)
 print("Weaknessess: ", weaknesses)
+print(name, " will be ", ageNextYear, " next year!")
 print(name, " says, 'Thanks for creating me!'")
 
-ageNextYear=int(age) + 1
-print(name, " will be ", ageNextYear, " next year!")
 
