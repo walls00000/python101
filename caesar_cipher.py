@@ -1,15 +1,36 @@
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
-stringToEncrypt = input("Please enter a message to encrypt")
-stringToEncrypt = stringToEncrypt.upper()
-shiftAmount = int(input("Please enter a whole number from 1-25 to be your key"))
-encryptedString = ""
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+alphabetLength = alphabet.__len__()
 
-for currentCharacter in stringToEncrypt:
-    position = alphabet.find(currentCharacter)
-    newPosition = position + shiftAmount
-    if currentCharacter in alphabet:
-        encryptedString = encryptedString + alphabet[newPosition]
-    else:
-        encryptedString = encryptedString + currentCharacter
+def run_caesar():
+    stringToEncrypt = input("Please enter a message to encrypt")   
+    shiftMessage = "Please enter a whole number from -%d to %d to be your key" % (alphabetLength-1, alphabetLength-1)
+    intKey = int(input(shiftMessage))
+    encrypted = caesar_cipher(stringToEncrypt, intKey)    
+    print("Your encrypted message is", encrypted)
+
+def caesar_cipher(clearText, shiftAmount):
+    """ caesar_cipher: Use the caesar cipher to encrypt clearText 
+    using shiftAmount
     
-print("Your encrypted message is", encryptedString)
+    Parameters
+    ----------
+    clearText: the text string to encrypt
+    shiftAmount: the integer shift amount
+    
+    Return: 
+    the encrypted string
+    """
+    clearText = clearText.upper()
+    encryptedString = ""
+
+    for currentCharacter in clearText:
+        position = alphabet.find(currentCharacter)
+        newPosition = (position + shiftAmount) % alphabetLength
+        if currentCharacter in alphabet:
+            encryptedString = encryptedString + alphabet[newPosition]
+        else:
+            encryptedString = encryptedString + currentCharacter
+    
+    return encryptedString
+ 
+run_caesar()
