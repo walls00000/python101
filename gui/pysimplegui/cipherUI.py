@@ -96,17 +96,15 @@ file_list_column = [
     ],
     [
         sg.Listbox(
-            values=[], enable_events=True, size=(40,20), key="-FILE LIST-"
+            values=[], enable_events=True, size=(50,20), key="-FILE LIST-"
         )
     ],
-]
-
-control_column = [
+    [sg.HSeparator()],
     [sg.Button("Plain Text", key="-PLAIN_TEXT-"),
-    sg.Button("Encrypt", key="-ENCRYPT-")],
+     sg.Button("Encrypt", key="-ENCRYPT-")],
     [sg.Text("Write Contents To File: "),
-    sg.In(size=(25, 1), enable_events=True, key="-NEW_FILE_NAME-"),
-    sg.Button("Write File", key="-WRITE_FILE-")],
+     sg.In(size=(25, 1), enable_events=True, key="-NEW_FILE_NAME-"),
+     sg.Button("Write File", key="-WRITE_FILE-")],
     [sg.Text("caesar cipher key")],
     [sg.Slider(range=(0-alphabetLength, alphabetLength), default_value=0, orientation='h', size=(50,20), key="-SLIDER-")],
     [sg.Radio("binary off", group_id=1, default=True, key="-BIN_OFF-")],
@@ -114,20 +112,19 @@ control_column = [
     [sg.Radio("binary decode", group_id=1, key="-BIN_DECODE-")],
 ]
 
+
 # For now will only show the name of the file that was chosen
 image_viewer_column = [
     [sg.Text("Choose a file from list on left:")],
-    [sg.Text(size=(40, 2), key="-TOUT-")],
+    [sg.Text(size=(60, 2), key="-TOUT-")],
     [sg.HSeparator()],
-    [sg.Text(size=(40,20), text_color="black", key="-CONTENTS-")],
+    [sg.Text(size=(60,20), text_color="black", key="-CONTENTS-")],
 ]
 
 # ------- Full layout -------
 layout = [
     [
         sg.Column(file_list_column),
-        sg.VSeparator(),
-        sg.Column(control_column),
         sg.VSeparator(),
         sg.Column(image_viewer_column),
     ]
