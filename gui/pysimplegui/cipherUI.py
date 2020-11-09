@@ -1,4 +1,9 @@
 # cipherUI.py
+########################################################
+## TODO:
+## Give option to encrypt entire file or just values
+## Make the file pane larger with a scroll bar
+## Allow blank lines
 
 import PySimpleGUI as sg
 import os.path
@@ -27,6 +32,7 @@ def writeFile(newfilename, contents):
     newfile = open(newfilename, "w")
     newfile.write(contents)
     newfile.close()
+
 def encryptFile(arguments):
     newfilename = "{}.enc".format(arguments["file"])
     encrypted_contents = "";
