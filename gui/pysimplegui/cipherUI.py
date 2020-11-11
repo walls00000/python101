@@ -35,22 +35,17 @@ def writeFile(newfilename, contents):
 
 def encryptFile(arguments):
     newfilename = "{}.enc".format(arguments["file"])
-    encrypted_contents = "";
-    # if arguments["write"]:
-    #     print("writing new file {}".format(newfilename))
+    encrypted = ""
     with open(arguments["file"]) as f:
-        for line in f:
-            fields = line.split()
-            if(arguments["bin"] == "DECODE"):
-                encrypted = binaryDecode(fields[1])
-            else:
-                encrypted = fields[1]
-            encrypted = caesar_cipher(encrypted, arguments["key"])
-            if(arguments["bin"] == "ENCODE"):
-                encrypted = binaryEncode(encrypted)
-            encrypted_line = ("{} {}\n".format(fields[0], encrypted))
-            encrypted_contents += encrypted_line
-    return encrypted_contents
+        contents = f.read()
+        if(arguments["bin"] == "DECODE"):
+            encrypted = binaryDecode(contents)
+        else:
+            encrypted = contents
+        encrypted = caesar_cipher(encrypted, arguments["key"])
+        if(arguments["bin"] == "ENCODE"):
+            encrypted = binaryEncode(encrypted)
+    return encrypted;
 
 def caesar_cipher(clearText, shiftAmount):
     """ caesar_cipher: Use the caesar cipher to encrypt clearText
@@ -107,7 +102,7 @@ file_list_column = [
     ],
     [sg.HSeparator()],
     [sg.Button("Plain Text", key="-PLAIN_TEXT-"),
-     sg.Button("Encrypt", key="-ENCRYPT-")],
+     sg.Button("Encrypt/Decrypt", key="-ENCRYPT-")],
     [sg.Text("Write Contents To File: "),
      sg.In(size=(25, 1), enable_events=True, key="-NEW_FILE_NAME-"),
      sg.Button("Write File", key="-WRITE_FILE-")],
