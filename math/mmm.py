@@ -37,29 +37,23 @@ def mode(numbers):
 
     for k, v in c.items():
         if v == c.most_common(1)[0][1]:
-            return k
+            return [c.most_common(3)[0][0], c.most_common(3)[1][0], c.most_common(3)[2][0]]
+            #return k
 
 def mode1(numbers):
     return statistics.mode(numbers)
 
-#sample = input("numbers: ")
-sample = "4 1 2 2 3 5 4 3 4"
+sample = input("numbers: ")
+#sample = "4 1 2 2 3 5 4 3 4"
 array = sample.split()
 numeric_array = [int(i) for i in array]
 print("sample '{}'".format(numeric_array))
 
-my_mean = mean(numeric_array)
-my_median = median(numeric_array)
+my_mean = mean1(numeric_array)
+my_median = median1(numeric_array)
 my_mode = mode(numeric_array)
 
 print("mean: {}".format(my_mean))
 print("median: {}".format(my_median))
 print("mode: {}".format(my_mode))
-
-my_mean1 = mean1(numeric_array)
-my_median1 = median1(numeric_array)
-my_mode1 = mode1(numeric_array)
-
-print("mean1: {}".format(my_mean1))
-print("median1: {}".format(my_median1))
-print("mode1: {}".format(my_mode1))
+ 
