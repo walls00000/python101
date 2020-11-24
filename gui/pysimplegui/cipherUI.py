@@ -1,9 +1,8 @@
 # cipherUI.py
 ########################################################
 ## TODO:
-## Give option to encrypt entire file or just values
-## Make the file pane larger with a scroll bar
-## Allow blank lines
+## Add transposition cipher
+## Add Reverse cipher
 
 import PySimpleGUI as sg
 import os.path
@@ -119,7 +118,7 @@ image_viewer_column = [
     [sg.Text("Choose a file from list on left:")],
     [sg.Text(size=(60, 2), key="-TOUT-")],
     [sg.HSeparator()],
-    [sg.Text(size=(60,20), text_color="black", key="-CONTENTS-")],
+    [sg.Output(size=(60,40), text_color="black",background_color="white", key="-CONTENTS-")],
 ]
 
 # ------- Full layout -------
