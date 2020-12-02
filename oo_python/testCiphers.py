@@ -21,3 +21,11 @@ def testCaesarCipher():
 
     decrypted = cipherUtils.caesarCipher(encrypted, -7)
     assert decrypted == message, "failed: expected '{}' but got '{}'".format(message, decrypted)
+
+def testAllCaesarKeys():
+    for i in range(1,cipherUtils.getAlphabetLength()):
+        decryptKey=0-i
+        encrypted = cipherUtils.caesarCipher(message,i)
+        decrypted = cipherUtils.caesarCipher(encrypted,decryptKey)
+        assert decrypted == message, "failed: Iteration with key {} and decryption key {}"\
+            .format(i, decryptKey)
