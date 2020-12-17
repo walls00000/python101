@@ -31,7 +31,7 @@ class CipherUtils:
         encoded = ""
         for char in message:
             value = ord(char)
-            formatted = "{}".format(f"{value:03d}")
+            formatted = "{0:03}".format(value)
             encoded += formatted
         return encoded
 
