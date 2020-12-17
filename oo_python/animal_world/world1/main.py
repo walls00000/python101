@@ -32,7 +32,7 @@ world = World()
 
 animal1 = Animal(world, "Fred")
 animal2 = Animal(world, "Barny")
-animal3 = Animal(world, "Allice")
+animal3 = Animal(world, "Alice")
 
 world.moveAnimals()
 world.identifyAnimals()

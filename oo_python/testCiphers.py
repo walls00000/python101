@@ -6,7 +6,8 @@
 import pytest
 from Ciphers.CipherUtils import CipherUtils
 
-message = "I love to encrypt things"
+message = """I love to encrypt 
+things"""
 cipherUtils = CipherUtils()
 
 def testBinaryEncode():
@@ -34,13 +35,13 @@ def testBinaryEncodeDecode():
 
 def testAsciiEncode():
     ''' Verify asciiEncode can encode '''
-    expected = "073032108111118101032116111032101110099114121112116032116104105110103115"
+    expected = "073032108111118101032116111032101110099114121112116032010116104105110103115"
     encoded = cipherUtils.asciiEncode(message)
     assert encoded == expected
 
 def testAsciiDecode():
     ''' Verify asciiDecode can decode '''
-    encoded = "073032108111118101032116111032101110099114121112116032116104105110103115"
+    encoded = "073032108111118101032116111032101110099114121112116032010116104105110103115"
     decoded = cipherUtils.asciiDecode(encoded)
     assert decoded == message
 
@@ -69,7 +70,8 @@ def testCaesarAlphabetLength():
 def testCaesarCipher():
     ''' Verify caesar cipher encryption of a message '''
     encrypted = cipherUtils.caesarCipher(message, 7)
-    expected = "P svCl Av lujyFwA Aopunz"
+    expected = """P svCl Av lujyFwA 
+Aopunz"""
     assert encrypted == expected, "failed: expected '{}' but got '{}'".format(expected, encrypted)
 
     decrypted = cipherUtils.caesarCipher(encrypted, -7)
@@ -90,7 +92,8 @@ def testOutOfRangeCipherKey():
     key = 2348392354
     decryptKey = 0 - key
     encrypted = cipherUtils.caesarCipher(message, key)
-    assert encrypted == "K nqxg vq gpetArv vjkpiu"
+    assert encrypted == """K nqxg vq gpetArv 
+vjkpiu"""
     decrypted = cipherUtils.caesarCipher(encrypted, decryptKey)
     assert decrypted == message, "failed: encryption/decryption with key {} and decryption key {}" \
         .format(key, decryptKey)
@@ -98,17 +101,18 @@ def testOutOfRangeCipherKey():
 def testTransposeEncrypt():
     ''' Verify transposeEncrypt will encrypt a message '''
     encrypted = cipherUtils.transposeEncrypt(8,message)
-    assert encrypted == "Iot   letonhvciern ygtps"
+    assert encrypted == 'Iots   le\nontvcheri yntpg'
 
 def testTransposeDecrypt():
     ''' Veryfy transposeDecrypt will decrypt a message '''
-    decrypted = cipherUtils.transposeDecrypt(8, "Iot   letonhvciern ygtps")
+    decrypted = cipherUtils.transposeDecrypt(8, 'Iots   le\nontvcheri yntpg')
     assert decrypted == message
 
 def testTranspopseEncrypt1():
     "Verify using a column key of 1 will result in the original message"
     encrypted = cipherUtils.transposeEncrypt(1,message)
     assert encrypted == message
+
 def testTransposeEncryptDecrypt():
     ''' Verify transposeEncrypted messagges can be decrypted by transposeDecrypt with various keys '''
     for key in range(2,17):
@@ -129,11 +133,40 @@ def testTransposeEncryptKeyMax():
 def testTransposeDecryptPlainText():
     ''' Verify transposeDecrypt on plain text will not throw '''
     decrypted = cipherUtils.transposeDecrypt(8, message)
-    assert decrypted == "Io  cptn vterthgleony is"
+    assert decrypted == "Ivterttn eony hgl  cp\niso"
 
 def testReverseCipher():
     ''' Verify the reverse cipher can encrypt and decrypt '''
     encrypted = cipherUtils.reverseCipher(message)
     decrypted = cipherUtils.reverseCipher(encrypted)
-    assert encrypted == "sgniht tpyrcne ot evol I"
+    assert encrypted == 'sgniht\n tpyrcne ot evol I'
+    assert decrypted == message
+
+def testCombination():
+    ''' Verify combining ciphers and encoding can be decrypted and decoded
+    1. encrypt with caesar
+    2. encrypt with reverse
+    3. encrypt with transposition cipher
+    4. encode in ascii
+    5. encode in binary
+
+    6. decode binary
+    7 decode ascii
+    8 decrypt transposition cipher
+    9 decrypt reverse cipher
+    10 decrypt caesar
+    '''
+
+    caesar_encrypted = cipherUtils.caesarCipher(message, 13)
+    reversed = cipherUtils.reverseCipher(caesar_encrypted)
+    transposed = cipherUtils.transposeEncrypt(8, reversed)
+    ascii_encoded = cipherUtils.asciiEncode(transposed)
+    binary_encoded = cipherUtils.binaryEncode(ascii_encoded)
+
+    binary_decoded = cipherUtils.binaryDecode(binary_encoded)
+    ascii_decoded = cipherUtils.asciiDecode(binary_decoded)
+    untransposed = cipherUtils.transposeDecrypt(8, ascii_decoded)
+    unreversed =  cipherUtils.reverseCipher(untransposed)
+    decrypted = cipherUtils.caesarCipher(unreversed, -13)
+
     assert decrypted == message

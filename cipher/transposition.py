@@ -1,13 +1,13 @@
 # Transposition Cipher Encryption
 # https://www.nostarch.com/crackingcodes/
 import math
-#import pyperclip
 
 def main():
     # myMessage = "Common sense is not so common."
-    file = input("Enter a filename: ")
-    handle = open(file, "r")
-    myMessage = handle.read()
+    myMessage = "Congratulations on the transposition cipher!"
+    # file = input("Enter a filename: ")
+    # handle = open(file, "r")
+    # myMessage = handle.read()
     print("ClearText: \n{}".format(myMessage))
     print("Length: {}".format(len(myMessage)))
     print("======================================")
@@ -35,7 +35,8 @@ def encryptMessage(key, message):
         #Keep looping until currentIndex goes past the message length.
         while currentIndex < len(message):
             # Place the character at currentIndex in message at the
-            # end of the current column in the ciphertext list:
+            # end of the current column in the ciphertext list
+            print(currentIndex)
             ciphertext[column] += message[currentIndex]
 
             #Move currentIndex over.
