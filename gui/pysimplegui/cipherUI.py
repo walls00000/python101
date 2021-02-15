@@ -3,6 +3,9 @@
 ## TODO:
 ## Add transposition cipher
 ## Add Reverse cipher
+## Enlarge fonts
+## Add editor capability to plaintext files
+## Add ability to re-read directory after writing file
 
 import PySimpleGUI as sg
 import os.path
@@ -169,6 +172,7 @@ while True:
         try:
             # Get list of files in folder
             file_list = os.listdir(folder)
+            file_list.sort()
         except:
             file_list = []
 

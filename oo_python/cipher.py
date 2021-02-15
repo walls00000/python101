@@ -2,6 +2,9 @@ from Ciphers.CipherUtils import CipherUtils
 import os
 import argparse
 
+
+## TODO: Handle file not found errors gracefully
+
 config = {}
 cipherUtils = CipherUtils()
 
