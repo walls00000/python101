@@ -6,12 +6,14 @@
 ## Enlarge fonts
 ## Add editor capability to plaintext files
 ## Add ability to re-read directory after writing file
+## Add bulk encrypt/decrypte functionality
 
 import PySimpleGUI as sg
 import os.path
 
 alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 alphabetLength = alphabet.__len__()
+defaultFont = "Courier 14"
 
 ################### Helper Functions ###################
 def contents(filename):
@@ -97,6 +99,7 @@ file_list_column = [
         sg.In(
             size=(25, 1),
             enable_events=True,
+            font=defaultFont,
             text_color="yellow",
             background_color="black",
             key="-FOLDER-"),
@@ -109,6 +112,7 @@ file_list_column = [
             size=(50,20),
             text_color="white",
             background_color="black",
+            font=defaultFont,
             key="-FILE LIST-"
         )
     ],
@@ -121,6 +125,7 @@ file_list_column = [
          enable_events=True,
          text_color="yellow",
          background_color="black",
+         font=defaultFont,
          key="-NEW_FILE_NAME-"
      ),
      sg.Button("Write File", key="-WRITE_FILE-")],
@@ -147,7 +152,7 @@ image_viewer_column = [
     )],
     [sg.Text(size=(60, 2), key="-TOUT-")],
     [sg.HSeparator()],
-    [sg.Output(size=(60,40), text_color="white",background_color="black", key="-CONTENTS-")],
+    [sg.Output(size=(60,40), text_color="white",background_color="black", font=defaultFont, key="-CONTENTS-")],
 ]
 
 # ------- Full layout -------
