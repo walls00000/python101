@@ -3,9 +3,7 @@
 ## TODO:
 ## Add transposition cipher
 ## Add Reverse cipher
-## Enlarge fonts
 ## Add editor capability to plaintext files
-## Add ability to re-read directory after writing file
 ## Add bulk encrypt/decrypte functionality
 
 import PySimpleGUI as sg
@@ -148,6 +146,7 @@ image_viewer_column = [
     [sg.Text(
         "Choose a file from list on left:",
         text_color="yellow",
+        font=defaultFont,
         key="-CHOSEN_FILENAME-"
     )],
     [sg.Text(size=(60, 2), key="-TOUT-")],
@@ -166,6 +165,26 @@ layout = [
 
 window = sg.Window("CipherUI", layout)
 
+
+## Refresh the folder contents
+def refreshFolder():
+    folder = values["-FOLDER-"]
+    try:
+        # Get list of files in folder
+        file_list = os.listdir(folder)
+        file_list.sort()
+    except:
+        file_list = []
+
+    fnames = [
+        f
+        for f in file_list
+        if os.path.isfile(os.path.join(folder, f))
+    ]
+    window["-FILE LIST-"].update(fnames)
+
+
+
 # Run the Event Loop
 while True:
     event, values = window.read()
@@ -173,20 +192,7 @@ while True:
         break
     # Folder name was filled in, make a list of files in the folder
     if event == "-FOLDER-":
-        folder = values["-FOLDER-"]
-        try:
-            # Get list of files in folder
-            file_list = os.listdir(folder)
-            file_list.sort()
-        except:
-            file_list = []
-
-        fnames = [
-            f
-            for f in file_list
-            if os.path.isfile(os.path.join(folder, f))
-        ]
-        window["-FILE LIST-"].update(fnames)
+        refreshFolder()
     elif event == "-PLAIN_TEXT-":
         filename = os.path.join(
             values["-FOLDER-"], values["-FILE LIST-"][0]
@@ -207,7 +213,7 @@ while True:
         window["-TOUT-"].update("{}".format(myArgs))
         window["-CONTENTS-"].update(encrypted)
         writeFile(newfilename, encrypted);
-
+        refreshFolder()
     elif event == "-FILE LIST-": # A file was chosen from the listbox
         try:
             filename = os.path.join(
