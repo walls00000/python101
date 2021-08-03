@@ -104,6 +104,9 @@ file_list_column = [
         sg.FolderBrowse(),
     ],
     [
+        sg.Button("Refresh", key="-REFRESH-")
+    ],
+    [
         sg.Listbox(
             values=[],
             enable_events=True,
@@ -213,6 +216,8 @@ while True:
         window["-TOUT-"].update("{}".format(myArgs))
         window["-CONTENTS-"].update(encrypted)
         writeFile(newfilename, encrypted);
+        refreshFolder()
+    elif event == "-REFRESH-":
         refreshFolder()
     elif event == "-FILE LIST-": # A file was chosen from the listbox
         try:
