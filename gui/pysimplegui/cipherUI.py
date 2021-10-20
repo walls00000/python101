@@ -8,10 +8,12 @@
 
 import PySimpleGUI as sg
 import os.path
+import time
 
 alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 alphabetLength = alphabet.__len__()
 defaultFont = "Courier 14"
+decryptionTimeout = 60000
 
 ################### Helper Functions ###################
 def contents(filename):
@@ -189,8 +191,17 @@ def refreshFolder():
 
 
 # Run the Event Loop
+isEncrypting = False
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=decryptionTimeout)
+    if event == "__TIMEOUT__" and isEncrypting:
+        if values["-FILE LIST-"][0].endswith("enc"):
+            window["-TOUT-"].update("{}".format("Refreshing page"))
+            filename = os.path.join(
+                values["-FOLDER-"], values["-FILE LIST-"][0]
+            )
+            window["-CONTENTS-"].update(contents(filename))
+            isEncrypting = False
     if event == "Exit" or event == sg.WIN_CLOSED:
         break
     # Folder name was filled in, make a list of files in the folder
@@ -201,7 +212,10 @@ while True:
             values["-FOLDER-"], values["-FILE LIST-"][0]
         )
         window["-CONTENTS-"].update(contents(filename))
+        isEncrypting = False
     elif event == "-ENCRYPT-":
+        isEncrypting = True
+        start = time.time()
         myArgs = {};
         setValues(myArgs)
         encrypted = encryptFile(myArgs)
